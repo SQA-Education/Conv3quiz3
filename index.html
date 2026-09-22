@@ -191,7 +191,8 @@ function submitToTeacher(){const btn=document.getElementById('formSubmitBtn');if
     var nm=g('studentName')||(typeof studentName!=='undefined'?studentName:'')||'';
     var cl=g('studentClass')||g('className')||g('classSelect')||'';
     if(!nm){ ui('⚠️ <strong>We need your name.</strong><br><span style="font-size:.9em;color:#555">Go back, type your name, then submit again.</span>',true); return; }
-    var body=JSON.stringify({name:nm,className:cl,level:LV,kind:"quiz",session:SS,scores:scores()});
+    var _q=function(k){try{return new URLSearchParams(location.search).get(k)||"";}catch(e){return "";}};
+    var body=JSON.stringify({sid:_q("sid"),email:_q("email"),name:nm,className:cl,level:LV,kind:"quiz",session:SS,scores:scores()});
     for(var i=0;i<3;i++){
       try{
         var r=await fetch(U+"/functions/v1/submit-final",{method:"POST",headers:{"Content-Type":"application/json","apikey":K,"Authorization":"Bearer "+K},body:body});
